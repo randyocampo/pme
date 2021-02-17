@@ -26,8 +26,6 @@ Route::get('/projects/cropsrelated/destroy/{id}', [CreateProjectController::clas
                 ->middleware('auth')
                 ->name('deletecropsrelated'); 
 
-
-
 Route::get('/projects/create', [CreateProjectController::class, 'create'])
                 ->middleware('auth')
                 ->name('createproject');
@@ -36,13 +34,11 @@ Route::post('/projects/create/fetch', [CreateProjectController::class, 'fetch'])
                  ->middleware('auth')
                  ->name('CreateProjectController.fetch');
 
-// Route::post('/projects/create/fetch', [CreateProjectController::class, 'fetchmunicipality'])
-//                  ->middleware('auth')
-//                  ->name('CreateProjectController.fetchmunicipality');
+Route::post('save',[StudentController::class, 'save'])->name('student.save');
 
-Route::post('/projects/create', [CreateProjectController::class, 'create_save'])
+Route::post('create_save', [CreateProjectController::class, 'create_save'])
                  ->middleware('auth')
-                 ->name('createproject.save');
+                 ->name('projects.save');
 
 Route::get('/projects/update/{id}', [CreateProjectController::class, 'show'])
                 ->middleware('auth')

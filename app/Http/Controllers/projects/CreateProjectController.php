@@ -9,6 +9,8 @@ use App\Models\crops_related;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Validator;
+
 
 class CreateProjectController extends Controller
 
@@ -111,7 +113,7 @@ class CreateProjectController extends Controller
         echo $output;
         }
 
-    public function create()
+    function create()
     {
        $region_list = DB::table('geosummary') 
                         ->whereNotIn('region', ["","I","II","III","IVA"])
@@ -121,29 +123,10 @@ class CreateProjectController extends Controller
 
         return view('projects.create')->with('region_list', $region_list);
     }
-    
-    // public function create() {
-    //     //$regions = geosummary::all();
-    //     $regions = DB::table('geosummary')
-    //         ->select('region')
-    //         ->distinct()
-    //         ->whereNotNull('region')
-    //         ->whereNotIn('region', ['','I','II','III','IVA'])
-    //         ->orderByRaw('FIELD(REGION,"CAR","IVB","V","VI","VII","VIII","IX","X","XI","XII","XIII","ARMM")')
-    //         ->get();
+      
+    function create_save(Request $request) {
 
-    //     return view('projects.create')->with('regions' , $regions);
-    // }
-
-    
-
-    
-    public function create_save(Request $request) {
-        // 'region' => 'required',
-        // 'province' => 'required',
-        // 'municipality' => 'required',
-        // 'barangay' => 'required',
-        $this->validate($request, [
+        $validator = Validator::make($request->all(),[
             'region' => 'required',
             'province' => 'required',
             'municipality' => 'required',
@@ -154,12 +137,13 @@ class CreateProjectController extends Controller
             'individual' => 'max:6',
             'association' => 'max:3',
             'members' => 'max:6'
-            ]);
+        ]);
 
-        $projid = tblmne::where('projectid', '=', $request->projectid)->first();
-                if ($projid === null) {
-               
-                $id = tblmne::create([
+
+        if($validator->fails()){
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+        } else {
+            $values = [
                     'region' => $request->region,
                     'province' => $request->province,
                     'municipality' => $request->municipality,
@@ -171,17 +155,15 @@ class CreateProjectController extends Controller
                     'association' => $request->association,
                     'members' => $request->members,
                     'remarks' => $request->remarks
-                ])->id;
-                return redirect()->route('editproject', $id);
-                
-                }   
-                
-                 
-                return view('/projects/create')->with('projid' , $projid);  
-                
+            ];
 
-        
-         
+            $query = DB::table('tblmne')->insert($values);
+
+            if( $query ) {
+                return response()->json(['status'=>1, 'msg'=>'New Project Successfully Added']); 
+            }
+        }
+
 }
 
 public function addrelatedcrops(Request $request) {

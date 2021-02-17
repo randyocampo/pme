@@ -12,19 +12,14 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                    <div class="flex justify-center">
 				   <div class="panel panel-primary w-100">
-        
-		    <form id="registerindi" action="{{ route('createproject')}}" method="post">	
+			<form action="{{ route('projects.save') }}" method="post" id="registerindi">
+        	@csrf
 			
-            @csrf
-			<input id="regionselected"></input>
-			<input id="provinceselected"></input>
-			<input id="municipalityselected"></input>
-			<input id="barangayselected"></input>
 				<div class="form-row">
 							
 
 					<div class="form-group col-md-2">
-						<label style="font-size:12px" for="region" class="label mt-1 sr-only">Region * </label>
+						<label style="font-size:12px" for="region" class="label mt-1">Region * </label>
 						<select class="mb-2 border-2 rounded-lg w-full p-2 @error('region') border-red-500 @enderror dynamic" 
 								data-dependent="province"
 								name="region"
@@ -38,56 +33,42 @@
 								
 													   
 							</select>
-						@error('region')
-							<div class="text-red-500 mt-2 text-sm">
-								{{ $message }}
-							</div>
-						@enderror
+							<span class="text-red-500 error-text region_error"></span>
+
 					</div>
 
 					<div class="form-group col-md">
-						<label style="font-size:12px" for="province" class="label mt-1 sr-only">Province</label>
+						<label style="font-size:12px" for="province" class="label mt-1">Province</label>
 						<select class="mb-2 border-2 w-full p-2 rounded-lg @error('province') border-red-500 @enderror dynamic" 
 								data-dependent="municipality"
 								name="province" 
 								id="province" >
 								<option value="{{ old('province') }}">@if (old('province') != null) {{ old('province') }} @else Select Province * @endif  </option>
 						</select>
-						@error('province')
-								<div class="text-red-500 mt-2 text-sm">
-									{{ $message }}
-								</div>
-						@enderror
-						
+						<span class="text-red-500 error-text province_error"></span>
+					
 					</div>
 
 					<div class="form-group col-md">
-						<label style="font-size:12px" for="municipality" class="label mt-1 sr-only">Municipality</label>
+						<label style="font-size:12px" for="municipality" class="label mt-1">Municipality</label>
 						<select class="mb-2 border-2 w-full p-2 rounded-lg @error('municipality') border-red-500 @enderror dynamic" 
 							data-dependent="barangay"
 							name="municipality" 
 							id="municipality">
 							<option value="{{ old('municipality') }}">@if (old('municipality') != null) {{ old('municipality') }} @else Select Municipality * @endif  </option>
-						</select>		
-					@error('municipality')
-							<div class="text-red-500 mt-2 text-sm">
-								{{ $message }}
-							</div>
-					@enderror	
+						</select>	
+						<span class="text-red-500 error-text municipality_error"></span>	
+
 					</div>	
 
 					<div class="form-group col-md-3">
-					<label style="font-size:12px" class="label mt-1 sr-only" for="barangay">Barangay</label>
+					<label style="font-size:12px" class="label mt-1" for="barangay">Barangay</label>
 					<select class="mb-2 border-2 w-full p-2 rounded-lg @error('barangay') border-red-500 @enderror" 
 							name="barangay" 
 							id="barangay" >
 							<option value="{{ old('barangay') }}">@if (old('barangay') != null) {{ old('barangay') }} @else Select Barangay * @endif  </option>
 					</select>
-					@error('barangay')
-							<div class="text-red-500 mt-2 text-sm">
-								{{ $message }}
-							</div>
-					@enderror
+					<span class="text-red-500 error-text barangay_error"></span>	
 					
 					</div>	
 					 
@@ -98,33 +79,23 @@
                             
 
 						<div class="form-group col-md-3">
-							<label style="font-size:12px" class="label mt-1 sr-only" for="projectid">Project ID<span class="text-danger font-weight-bold">*</span></label>
+							<label style="font-size:12px" class="label mt-1" for="projectid">Project ID<span class="text-danger font-weight-bold">*</span></label>
 							<input type="text" class="mb-2 border-2 w-full p-2 rounded-lg @error('projectid') border-red-500 @enderror  rounded-lg" value="{{ old('projectid') }}" 
 								name="projectid" 
 								id="projectid" 
 								placeholder="Enter Project ID *" 
-									>
-						@error('projectid')
-                                        <div class="text-red-500 mt-2 text-sm">
-                                            {{ $message }}
-                                        </div>
-                    	@enderror	
+									>	
+									<span class="text-red-500 error-text projectid_error"></span>		
 						 
 						</div>
 					
 						<div class="form-group col-md">
-							<label style="font-size:12px" class="label mt-1 sr-only" for="projecttitle">Project Title<span class="text-danger font-weight-bold">*</span></label>
+							<label style="font-size:12px" class="label mt-1" for="projecttitle">Project Title<span class="text-danger font-weight-bold">*</span></label>
 							<input type="text" class="mb-2 border-2 w-full p-2 rounded-lg @error('projecttitle') border-red-500 @enderror  rounded-lg" value="{{ old('projecttitle') }}" 
 								name="projecttitle" 
 								id="projecttitle" 
 								placeholder="Enter Project Title*" >
-
-						@error('projecttitle')
-								<div class="text-red-500 mt-0 text-sm">
-									{{ $message }}
-								</div>
-						@enderror
-
+								<span class="text-red-500 error-text projecttitle_error" ></span>
 							</div>
 							
 
@@ -132,66 +103,45 @@
 				  
 				  <div class="form-row">
 					<div class="form-group col-md">
-						<label style="font-size:12px" class="label mt-1 sr-only"  for="year_covered">Year Covered</label>
+						<label style="font-size:12px" class="label mt-1"  for="year_covered">Year Covered</label>
 						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg @error('year_covered') border-red-500 @enderror" value="{{ old('year_covered') }}" 
 							name="year_covered" 
 							id="year_covered" 
 							placeholder="Enter Year Covered *"  >
-						
-						@error('year_covered')
-								<div class="text-red-500 mt-2 text-sm">
-									{{ $message }}
-								</div>
-						@enderror
+							<span class="text-red-500 error-text year_covered_error"></span>
 
 					  </div>
 
 					<div class="form-group col-md">
-						<label style="font-size:12px" class="label mt-1 sr-only" for="individual">No. of Individuals</label>
+						<label style="font-size:12px" class="label mt-1" for="individual">No. of Individuals</label>
 						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg" value="{{ old('individual') }}" 
 						name="individual" 
 						id="individual" 
 						placeholder="No. of Individuals" >
-
-						@error('individual')
-							<div class="text-red-500 mt-2 text-sm">
-								{{ $message }}
-							</div>
-						@enderror
-						
+						<span class="text-red-500 error-text individual_error" ></span>	
+				
 
 					</div>
 
 					<div class="form-group col-md">
-						<label style="font-size:12px" class="label mt-1 sr-only" for="association">No. of Association</label>
+						<label style="font-size:12px" class="label mt-1" for="association">No. of Association</label>
 						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg" value="{{ old('association') }}" 
 						name="association" 
 						id="association" 
 						placeholder="No. of Association" >
-
-						@error('association')
-							<div class="text-red-500 mt-2 text-sm">
-								{{ $message }}
-							</div>
-						@enderror
-						
+						<span class="text-red-500 error-text association_error" ></span>
+			
 
 					</div>
 
 					
 							<div class="form-group col-md">
-								<label style="font-size:12px" class="label mt-1 sr-only" for="members">No. of Members</label>
+								<label style="font-size:12px" class="label mt-1" for="members">No. of Members</label>
 								<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg" value="{{ old('members') }}" 
 								name="members" 
 								id="members" 
 								placeholder="No. of Members">
-
-						@error('members')
-							<div class="text-red-500 mt-2 text-sm">
-								{{ $message }}
-							</div>
-						@enderror
-
+						<span class="text-red-500 error-text members_error" ></span>		
 							</div>
 
 					
@@ -199,16 +149,12 @@
 				  	</div> 
                       <div class="form-row">
                             <div class="form-group col-md">
-								<label style="font-size:12px" class="label mt-1 sr-only"  for="remarks">Remarks</label>
+								<label style="font-size:12px" class="label mt-1"  for="remarks">Remarks</label>
                                 <textarea type="number" rows="3" class="mb-2 border-2 w-full p-2 rounded-lg"
 								name="remarks" 
 								id="remarks" 
 								placeholder="Enter Remarks" >{{ old('remarks') }}</textarea>
-						@error('remarks')
-							<div class="text-red-500 mt-2 text-sm">
-								{{ $message }}
-							</div>
-						@enderror
+								<span class="text-red-500 error-text remarks_error"></span>
 							</div>
                       </div>
 
@@ -220,7 +166,7 @@
 							</div>
                       </div>
 
-			    <footer>
+			    	<footer>
 		                <p><span class="text-danger font-weight-bold">*</span> Required Fields</p>
 				    </footer>
 
@@ -238,8 +184,40 @@
 </x-app-layout>
 
 <script type="text/javascript">
+
+$(function(){
+              
+    $("#registerindi").on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url:$(this).attr('action'),
+            method:$(this).attr('method'),
+            data:new FormData(this),
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+                $(document).find('span.error-text').text('');
+            },
+            success:function(data){
+                if(data.status == 0){
+                    $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+                }else{
+                    $('#main_form')[0].reset();
+                    alert(data.msg);
+                }
+            }
+        });
+    });
+});
+
 $(document).ready(function(){
 
+
+	var loadz = '';
 	 $('.dynamic').change(function(){
 		if($(this).val() != '')
 		{
@@ -256,8 +234,11 @@ $(document).ready(function(){
 				url:"{{ route('CreateProjectController.fetch') }}",
 				method: "POST",
 				data: {select:select, value:value, _token:_token, dependent:dependent, prov: prov},
+				beforeSend:function(){   
+						loadz = '<option value=""><span class="spinner-border spinner-border-sm">Loading...</span></option>';
+						$('#'+dependent).html(loadz);
+            	},
 				success:function(result){
-					// alert('waaaaaaaaaaaaaaa');
 					$('#'+dependent).html(result);
 
 				}
@@ -267,52 +248,9 @@ $(document).ready(function(){
 
 	})
 
-	$('#region2').change(function(){
-		if($(this).val() != '')
-		{
-			var prov = '';
-				var select = $(this).attr("id");
-				var value = $(this).val();
-				var dependent = $(this).data('dependent'); 
-				var _token = $('input[name="_token"]').val();
-			$.ajax({
-				url:"{{ route('CreateProjectController.fetch') }}",
-				method: "POST",
-				data: {select:select, value:value, _token:_token, dependent:dependent},
-				success:function(result){
-					// alert('waaaaaaaaaaaaaaa');
-					$('#province').html(result);
-					$('#municipality').html('<option value="">Select Municipality *</option>');
-					$('#barangay').html('<option value="">Select Barangay *</option>');
-				}
+	
 
-			})
-		}
-
-	})
-
-	$('#province2').change(function(){
-		if($(this).val() != '')
-		{
-			var prov = '';
-				var select = $(this).attr("id");
-				var value = $(this).val();
-				var dependent = $(this).data('dependent'); 
-				var _token = $('input[name="_token"]').val();
-			$.ajax({
-				url:"{{ route('CreateProjectController.fetch') }}",
-				method: "POST",
-				data: {select:select, value:value, _token:_token, dependent:dependent},
-				success:function(result){
-					// alert('waaaaaaaaaaaaaaa');
-					$('#municipality').html(result);
-					$('#barangay').html('<option value="">Select Barangay *</option>');
-				}
-
-			})
-		}
-
-	})
+	
 
 
 });
