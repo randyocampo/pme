@@ -12,7 +12,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                    <div class="flex justify-center">
 				   <div class="panel panel-primary w-100">
-			<form action="{{ route('projects.save') }}" method="post" id="registerindi">
+			<form action="{{ route('projects.save') }}" method="POST" id="registerindi">
         	@csrf
 			
 				<div class="form-row">
@@ -20,7 +20,7 @@
 
 					<div class="form-group col-md-2">
 						<label style="font-size:12px" for="region" class="label mt-1">Region * </label>
-						<select class="mb-2 border-2 rounded-lg w-full p-2 @error('region') border-red-500 @enderror dynamic" 
+						<select class="mb-2 border-2 rounded-lg w-full p-2 withdata dynamic" 
 								data-dependent="province"
 								name="region"
 								id="region">
@@ -29,17 +29,13 @@
 									@foreach($region_list as $region)
 										<option value="{{ $region->region}}">{{ $region->region}}</option>
 									@endforeach
-								
-								
-													   
 							</select>
 							<span class="text-red-500 error-text region_error"></span>
-
-					</div>
+				</div>
 
 					<div class="form-group col-md">
 						<label style="font-size:12px" for="province" class="label mt-1">Province</label>
-						<select class="mb-2 border-2 w-full p-2 rounded-lg @error('province') border-red-500 @enderror dynamic" 
+						<select class="mb-2 border-2 w-full p-2 rounded-lg withdata dynamic" 
 								data-dependent="municipality"
 								name="province" 
 								id="province" >
@@ -51,7 +47,7 @@
 
 					<div class="form-group col-md">
 						<label style="font-size:12px" for="municipality" class="label mt-1">Municipality</label>
-						<select class="mb-2 border-2 w-full p-2 rounded-lg @error('municipality') border-red-500 @enderror dynamic" 
+						<select class="mb-2 border-2 w-full p-2 rounded-lg withdata dynamic" 
 							data-dependent="barangay"
 							name="municipality" 
 							id="municipality">
@@ -63,7 +59,7 @@
 
 					<div class="form-group col-md-3">
 					<label style="font-size:12px" class="label mt-1" for="barangay">Barangay</label>
-					<select class="mb-2 border-2 w-full p-2 rounded-lg @error('barangay') border-red-500 @enderror" 
+					<select class="mb-2 border-2 w-full p-2 rounded-lg withdata" 
 							name="barangay" 
 							id="barangay" >
 							<option value="{{ old('barangay') }}">@if (old('barangay') != null) {{ old('barangay') }} @else Select Barangay * @endif  </option>
@@ -80,7 +76,7 @@
 
 						<div class="form-group col-md-3">
 							<label style="font-size:12px" class="label mt-1" for="projectid">Project ID<span class="text-danger font-weight-bold">*</span></label>
-							<input type="text" class="mb-2 border-2 w-full p-2 rounded-lg @error('projectid') border-red-500 @enderror  rounded-lg" value="{{ old('projectid') }}" 
+							<input type="text" class="mb-2 border-2 w-full p-2 rounded-lg withdata rounded-lg" value="{{ old('projectid') }}" 
 								name="projectid" 
 								id="projectid" 
 								placeholder="Enter Project ID *" 
@@ -91,7 +87,7 @@
 					
 						<div class="form-group col-md">
 							<label style="font-size:12px" class="label mt-1" for="projecttitle">Project Title<span class="text-danger font-weight-bold">*</span></label>
-							<input type="text" class="mb-2 border-2 w-full p-2 rounded-lg @error('projecttitle') border-red-500 @enderror  rounded-lg" value="{{ old('projecttitle') }}" 
+							<input type="text" class="mb-2 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('projecttitle') }}" 
 								name="projecttitle" 
 								id="projecttitle" 
 								placeholder="Enter Project Title*" >
@@ -104,7 +100,7 @@
 				  <div class="form-row">
 					<div class="form-group col-md">
 						<label style="font-size:12px" class="label mt-1"  for="year_covered">Year Covered</label>
-						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg @error('year_covered') border-red-500 @enderror" value="{{ old('year_covered') }}" 
+						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg withdata" value="{{ old('year_covered') }}" 
 							name="year_covered" 
 							id="year_covered" 
 							placeholder="Enter Year Covered *"  >
@@ -114,7 +110,7 @@
 
 					<div class="form-group col-md">
 						<label style="font-size:12px" class="label mt-1" for="individual">No. of Individuals</label>
-						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg" value="{{ old('individual') }}" 
+						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg withdata" value="{{ old('individual') }}" 
 						name="individual" 
 						id="individual" 
 						placeholder="No. of Individuals" >
@@ -125,7 +121,7 @@
 
 					<div class="form-group col-md">
 						<label style="font-size:12px" class="label mt-1" for="association">No. of Association</label>
-						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg" value="{{ old('association') }}" 
+						<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg withdata" value="{{ old('association') }}" 
 						name="association" 
 						id="association" 
 						placeholder="No. of Association" >
@@ -137,7 +133,7 @@
 					
 							<div class="form-group col-md">
 								<label style="font-size:12px" class="label mt-1" for="members">No. of Members</label>
-								<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg" value="{{ old('members') }}" 
+								<input type="number" class="mb-2 border-2 w-full p-2 rounded-lg withdata" value="{{ old('members') }}" 
 								name="members" 
 								id="members" 
 								placeholder="No. of Members">
@@ -150,7 +146,7 @@
                       <div class="form-row">
                             <div class="form-group col-md">
 								<label style="font-size:12px" class="label mt-1"  for="remarks">Remarks</label>
-                                <textarea type="number" rows="3" class="mb-2 border-2 w-full p-2 rounded-lg"
+                                <textarea type="number" rows="3" class="mb-2 border-2 w-full p-2 rounded-lg withdata"
 								name="remarks" 
 								id="remarks" 
 								placeholder="Enter Remarks" >{{ old('remarks') }}</textarea>
@@ -199,15 +195,17 @@ $(function(){
             contentType:false,
             beforeSend:function(){
                 $(document).find('span.error-text').text('');
+				$(document).find('.withdata').removeClass("border-red-500");
             },
             success:function(data){
                 if(data.status == 0){
                     $.each(data.error, function(prefix, val){
                         $('span.'+prefix+'_error').text(val[0]);
+						$('#'+prefix).addClass("border-red-500");
                     });
                 }else{
-                    $('#main_form')[0].reset();
-                    alert(data.msg);
+                    //$('#registerindi')[0].reset();
+					window.location.replace('/projects/edit' + '/' + data.id);
                 }
             }
         });

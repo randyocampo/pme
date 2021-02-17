@@ -1,14 +1,14 @@
 <!-- Modal  CROPS RELATED -->
 <div
   class="modal fade"
-  id="cropsrelatedmodal"
+  id="cropsrelatedmodal_edit"
   tabindex="-1"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-lg">
     <div class="modal-content ">
       <div class="modal-header ">
-        <h5 class="modal-title" >Crops Related</h5>
+        <h5 class="modal-title" >Edit Crops Related</h5>
         <button
           type="button"
           class="btn-close"
@@ -17,17 +17,15 @@
         ></button>
       </div>
       <div class="modal-body">
-      <form id="addrelatedcrops" action="{{ route('projects.edit.addrelatedcrops',$mnes->id)}}" method="post">	
+      <form id="editrelatedcrops" action="" method="post">	
       @csrf
-            <input type="hidden" value="@if($mnes !== null){{ $mnes->id }}@endif" name="projectid" id="projectid">
-
-           <div class="form-row px-3">
+            <div class="form-row px-3">
 
               <div class="form-group col-md-3 mb-1">
-                <label style="font-size:12px" for="nocycles" class="label mt-0">Number of Cycles</label>
+                <label style="font-size:12px" for="edit_nocycles" class="label mt-0">Number of Cycles</label>
                 <select class="mb-1 border-2 w-full p-2 rounded-lg withdata dynamic" 
-                    name="nocycles" 
-                    id="nocycles" >
+                    name="edit_nocycles" 
+                    id="edit_nocycles" >
                     <option value="">Select Number of Cycles </option>
                     <option value="1st Cycle">1st Cycle</option>
                     <option value="2nd Cycle">2nd Cycle</option>
@@ -35,28 +33,28 @@
                     <option value="4th Cycle">4th Cycle</option>
                     <option value="5th Cycle">5th Cycle</option>
                   </select>
-                  <span class="text-red-500 error-text nocycles_error"></span>
+                  <span class="text-red-500 error-text edit_nocycles_error"></span>
                 </div>
 
                 <div class="form-group col-md mb-1">
-                    <label style="font-size:12px" class="label mt-0" for="cropsprovided">Crops Provided</label>
+                    <label style="font-size:12px" class="label mt-0" for="edit_cropsprovided">Crops Provided</label>
                     <input type="text" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('cropsprovided') }}" 
-                      name="cropsprovided" 
-                      id="cropsprovided" 
+                      name="edit_cropsprovided" 
+                      id="edit_cropsprovided" 
                       placeholder="Enter Crops Provided *" 
                         >
-                  <span class="text-red-500 error-text cropsprovided_error"></span>
+                  <span class="text-red-500 error-text edit_cropsprovided_error"></span>
                   
                 </div>
 
               <div class="form-group col-md-3 mb-1">
-							<label style="font-size:12px" class="label mt-0" for="noofcropspercycle">No. of Croppings per Cycle</label>
+							<label style="font-size:12px" class="label mt-0" for="edit_noofcropspercycle">No. of Croppings per Cycle</label>
 							<input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('noofcropspercycle') }}" 
-								name="noofcropspercycle" 
-								id="noofcropspercycle" 
+								name="edit_noofcropspercycle" 
+								id="edit_noofcropspercycle" 
 								placeholder="Enter No. of Croppings per Cycle *" 
 									>
-						<span class="text-red-500 error-text noofcropspercycle_error"></span>
+						<span class="text-red-500 error-text edit_noofcropspercycle_error"></span>
 						 
 					</div>
               </div>
@@ -69,46 +67,46 @@
           </div>
           <div class="form-row px-3">
               <div class="form-group col-md mb-1">
-                  <label style="font-size:12px" class="label mt-0" for="targetdateplanted">Date Planted</label>
+                  <label style="font-size:12px" class="label mt-0" for="edit_targetdateplanted">Date Planted</label>
                   <input type="date" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('targetdateplanted') }}" 
-                    name="targetdateplanted" 
-                    id="targetdateplanted" 
+                    name="edit_targetdateplanted" 
+                    id="edit_targetdateplanted" 
                     placeholder="Enter Target Date Planted *" 
                       >
-                <span class="text-red-500 error-text targetdateplanted_error"></span>
+                <span class="text-red-500 error-text edit_targetdateplanted_error"></span>
                 
               </div>
 
               <div class="form-group col-md mb-1">
-                  <label style="font-size:12px" class="label mt-0" for="targettotalareaplanted">Total Area Planted</label>
+                  <label style="font-size:12px" class="label mt-0" for="edit_targettotalareaplanted">Total Area Planted</label>
                   <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('targettotalareaplanted') }}" 
-                    name="targettotalareaplanted" 
-                    id="targettotalareaplanted" 
+                    name="edit_targettotalareaplanted" 
+                    id="edit_targettotalareaplanted" 
                     placeholder="Enter Target Area Planted *" 
                       >
-                <span class="text-red-500 error-text targettotalareaplanted_error"></span>
+                <span class="text-red-500 error-text edit_targettotalareaplanted_error"></span>
                 
               </div>
 
               <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="targetdateharvested">Date Harvested</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_targetdateharvested">Date Harvested</label>
                 <input type="date" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('targetdateharvested') }}" 
-                  name="targetdateharvested" 
-                  id="targetdateharvested" 
+                  name="edit_targetdateharvested" 
+                  id="edit_targetdateharvested" 
                   placeholder="Enter Target Date Harvested *" 
                     >
-              <span class="text-red-500 error-text targetdateharvested_error"></span>
+              <span class="text-red-500 error-text edit_targetdateharvested_error"></span>
               
             </div>
 
             <div class="form-group col-md mb-1">
-                  <label style="font-size:12px" class="label mt-0" for="targettotalareaharvested">Total Area Harvested</label>
+                  <label style="font-size:12px" class="label mt-0" for="edit_targettotalareaharvested">Total Area Harvested</label>
                   <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('targettotalareaharvested') }}" 
-                    name="targettotalareaharvested" 
-                    id="targettotalareaharvested" 
+                    name="edit_targettotalareaharvested" 
+                    id="edit_targettotalareaharvested" 
                     placeholder="Enter Target Area Harvested *" 
                       >
-                <span class="text-red-500 error-text targetdateharvested_error"></span>
+                <span class="text-red-500 error-text edit_targetdateharvested_error"></span>
               </div>
 
 
@@ -120,106 +118,106 @@
           <div class="form-row px-3">
 
             <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="actualdateplanted">Date Planted</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_actualdateplanted">Date Planted</label>
                 <input type="date" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('actualdateplanted') }}" 
-                  name="actualdateplanted" 
-                  id="actualdateplanted" 
+                  name="edit_actualdateplanted" 
+                  id="edit_actualdateplanted" 
                   placeholder="Enter Actual Date Planted *" 
                     >
-              <span class="text-red-500 error-text actualdateplanted_error"></span>
+              <span class="text-red-500 error-text edit_actualdateplanted_error"></span>
               
             </div>
 
             <div class="form-group col-md mb-1">
-                  <label style="font-size:12px" class="label mt-0" for="actualtotalareaplanted">Total Area Planted</label>
+                  <label style="font-size:12px" class="label mt-0" for="edit_actualtotalareaplanted">Total Area Planted</label>
                   <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata rounded-lg" value="{{ old('actualtotalareaplanted') }}" 
-                    name="actualtotalareaplanted" 
-                    id="actualtotalareaplanted" 
+                    name="edit_actualtotalareaplanted" 
+                    id="edit_actualtotalareaplanted" 
                     placeholder="Enter Actual Area Planted *" 
                       >
-                <span class="text-red-500 error-text actualtotalareaplanted_error"></span>
+                <span class="text-red-500 error-text edit_actualtotalareaplanted_error"></span>
                 
               </div>
 
           
 
             <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="actualdateharvested">Date Harvested</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_actualdateharvested">Date Harvested</label>
                 <input type="date" class="mb-1 border-2 w-full p-2 rounded-lg withdata rounded-lg" value="{{ old('actualdateharvested') }}" 
-                  name="actualdateharvested" 
-                  id="actualdateharvested" 
+                  name="edit_actualdateharvested" 
+                  id="edit_actualdateharvested" 
                   placeholder="Enter Actual Date Harvested *" 
                     >
-              <span class="text-red-500 error-text actualdateharvested_error"></span>
+              <span class="text-red-500 error-text edit_actualdateharvested_error"></span>
               
             </div>
 
             
 
               <div class="form-group col-md mb-1">
-                  <label style="font-size:12px" class="label mt-0" for="actualtotalareaharvested">Total Area Harvested</label>
+                  <label style="font-size:12px" class="label mt-0" for="edit_actualtotalareaharvested">Total Area Harvested</label>
                   <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata rounded-lg" value="{{ old('actualtotalareaharvested') }}" 
-                    name="actualtotalareaharvested" 
-                    id="actualtotalareaharvested" 
+                    name="edit_actualtotalareaharvested" 
+                    id="edit_actualtotalareaharvested" 
                     placeholder="Enter Actual Area Harvested *" 
                       >
-                <span class="text-red-500 error-text actualtotalareaharvested_error"></span>
+                <span class="text-red-500 error-text edit_actualtotalareaharvested_error"></span>
                 
               </div>
               </div>
 
           <div class="form-row px-3 pt-1">
             <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="totalproduced">Total Produced (kg)</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_totalproduced">Total Produced (kg)</label>
                 <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata rounded-lg" value="{{ old('totalproduced') }}" 
-                  name="totalproduced" 
-                  id="totalproduced" 
+                  name="edit_totalproduced" 
+                  id="edit_totalproduced" 
                   placeholder="Enter Total Produced (kg)" 
                     >
-                  <span class="text-red-500 error-text totalproduced_error"></span>	
+                  <span class="text-red-500 error-text edit_totalproduced_error"></span>	
               
               </div>
               <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="totalsold">Total Sold (kg)</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_totalsold">Total Sold (kg)</label>
                 <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata  rounded-lg" value="{{ old('totalsold') }}" 
-                  name="totalsold" 
-                  id="totalsold" 
+                  name="edit_totalsold" 
+                  id="edit_totalsold" 
                   placeholder="Enter Total Sold (kg)" 
                     >
-                  <span class="text-red-500 error-text totalsold_error"></span>	
+                  <span class="text-red-500 error-text edit_totalsold_error"></span>	
               
               </div>
               <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="priceperkg">Price per kg (Php)</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_priceperkg">Price per kg (Php)</label>
                 <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata rounded-lg" value="{{ old('priceperkg') }}" 
-                  name="priceperkg" 
-                  id="priceperkg" 
+                  name="edit_priceperkg" 
+                  id="edit_priceperkg" 
                   placeholder="Enter Price per kg (Php)" 
                     >
-                   <span class="text-red-500 error-text priceperkg_error"></span>
+                   <span class="text-red-500 error-text edit_priceperkg_error"></span>
               
               </div>
 
               <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="totalsales">Total Sales (Php)</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_totalsales">Total Sales (Php)</label>
                 <input type="number" class="mb-1 border-2 w-full p-2 rounded-lg withdata rounded-lg" value="{{ old('totalsales') }}" 
-                  name="totalsales" 
-                  id="totalsales" 
+                  name="edit_totalsales" 
+                  id="edit_totalsales" 
                   placeholder="Enter Total Sales (Php)" 
                     >
-                  <span class="text-red-500 error-text totalsales_error"></span>
+                  <span class="text-red-500 error-text edit_totalsales_error"></span>
               
               </div>
 
           </div>
           <div class="form-group col-md mb-1">
-                <label style="font-size:12px" class="label mt-0" for="crremarks">Remarks</label>
+                <label style="font-size:12px" class="label mt-0" for="edit_remarks">Remarks</label>
                 <input type="text" class="mb-1 border-2 w-full p-2 rounded-lg row=3 withdata rounded-lg" value="{{ old('crremarks') }}" 
-                  name="crremarks" 
-                  id="crremarks" 
+                  name="edit_remarks" 
+                  id="edit_remarks" 
                   placeholder="Enter Remarks" 
                     >
-                  <span class="text-red-500 error-text crremarks_error"></span>
+                  <span class="text-red-500 error-text edit_crremarks_error"></span>
               
               </div>
 
@@ -227,7 +225,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="crops_submit" name="crops_submit">OK</button>
+        <button type="submit" class="btn btn-danger" id="edit_crops_submit" name="edit_crops_submit">OK</button>
         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
           Close
         </button>

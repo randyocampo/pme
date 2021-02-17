@@ -17,9 +17,9 @@
                         <button type="button" name="add"   id="add" class="add btn btn-info btn-sm my-2"><i class="fas fa-plus"></i> Add</button>
 
             <div class="table-responsive">    
-            <table class="table table-striped table-bordered nowrap">
+            <table id="projects" class="table table-striped table-bordered nowrap">
                 <thead>
-                    <tr>
+                    <tr>        <th>#</th>
                                 <th>Year Covered</th>
 			                    <th>Municipality</th>
 			                    <th>Barangay</th>
@@ -94,9 +94,10 @@ var user_id;
         scrollY:        "60vh",
 						scrollX:        true,
 						scrollCollapse: false,
-						paging:         true,
+						paging:         false,
 						processing: 	true,
         columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', "width": "2%"},
             {data: 'year_covered', name: 'year_covered', "width": "5%"},
             {data: 'municipality', name: 'municipality', "width": "15%"},
             {data: 'barangay', name: 'barangay', "width": "15%"},
@@ -125,6 +126,7 @@ $(document).on('click', '.delete', function() {
 
     user_id = $(this).attr('id');
     $('#confirmModal').modal('show');
+
     });
 
     
@@ -141,6 +143,7 @@ $(document).on('click', '.delete', function() {
                     $('#projects').DataTable().ajax.reload();
                     $('#ok_button').text('DELETE');
                     alert('Data Deleted');
+
                 }, 2000);
             }
 

@@ -240,15 +240,149 @@
 
 
 @include('projects.cropsrelated')
+@include('projects.cropsrelated_edit')
 
 
 
 <script type="text/javascript">
 
-$('#addcropsrelated').click(function(){
+$(function(){
+              
+    $("#addrelatedcrops").on('submit', function(e){
+        e.preventDefault();
 
-  $('#cropsrelatedmodal').modal('show');
+        $.ajax({
+            url:$(this).attr('action'),
+            method:$(this).attr('method'),
+            data:new FormData(this),
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+                $(document).find('span.error-text').text('');
+                $(document).find('.withdata').removeClass("border-red-500");
+                $('#crops_submit').text('Adding...');
+            },
+            success:function(data){
+                if(data.status == 0){
+                    $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                        $('#'+prefix).addClass("border-red-500");
+                        $('#crops_submit').text('OK');
+                    });
+                }else{
+                    $('#addrelatedcrops')[0].reset();
+                    $('#crops_submit').text('OK');
+                    $('#cropsrelated-table').DataTable().ajax.reload();
+                    $('#cropsrelated-total').DataTable().ajax.reload();
+                }
+            }
+        });
+    });
+
+    $("#editrelatedcrops").on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url:$(this).attr('action'),
+            method:$(this).attr('method'),
+            data:new FormData(this),
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+                $(document).find('span.error-text').text('');
+                $(document).find('.withdata').removeClass("border-red-500");
+                $('#edit_crops_submit').text('Saving...');
+            },
+            success:function(data){
+                if(data.status == 0){
+                    $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                        $('#'+prefix).addClass("border-red-500");
+                    });
+                    $('#edit_crops_submit').text('OK');
+                }else{
+                    $('#cropsrelated-table').DataTable().ajax.reload();
+                    $('#cropsrelated-total').DataTable().ajax.reload();
+                    $('#edit_crops_submit').text('OK');
+                    alert(data.msg); 
+                }
+            }
+        });
+    });
 });
+
+
+
+
+$('#addcropsrelated').click(function(){
+$('#cropsrelatedmodal').modal('show');
+});
+
+$(document).on('click', '.cropsrel_edit', function() {
+    user_id = $(this).attr('id');
+
+    $.ajax({
+            url: "/projects/edit/editcropsrelated/" + user_id,
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+                $('.withdata').prop("disabled", false);
+                $('.withdata').removeClass("bg-gray-300");
+            },
+            success:function(data){
+                   $('#editrelatedcrops').attr('action', '/projects/edit/editcropsrelated/'+ user_id);
+                   $('#edit_nocycles').html(data.selectOption);
+                   $('#edit_cropsprovided').val(data.crops);
+                   $('#edit_noofcropspercycle').val(data.crops_per_cycle);
+                   $('#edit_targetdateplanted').val(data.planted_target);
+                   $('#edit_targettotalareaplanted').val(data.total_area_planted_target);
+                   $('#edit_targetdateharvested').val(data.date_harvested_target);
+                   $('#edit_targettotalareaharvested').val(data.total_area_harvested_target);
+                   $('#edit_actualdateplanted').val(data.planted_actual);
+                   $('#edit_actualtotalareaplanted').val(data.total_area_planted_actual);
+                   $('#edit_actualdateharvested').val(data.date_harvested_actual);
+                   $('#edit_actualtotalareaharvested').val(data.total_area_harvested_actual);
+                   $('#edit_totalproduced').val(data.total_produce);
+                   $('#edit_totalsold').val(data.total_sold);
+                   $('#edit_priceperkg').val(data.priceperkg);
+                   $('#edit_totalsales').val(data.totalsales);
+                   $('#edit_remarks').val(data.remarks);
+
+                   if(data.planted_target){
+                      $('#edit_targetdateplanted').attr('disabled', true);
+                      $('#edit_targetdateplanted').addClass("bg-gray-300");
+                   }
+                   if(data.date_harvested_target){
+                      $('#edit_targetdateharvested').attr('disabled', true);
+                      $('#edit_targetdateharvested').addClass("bg-gray-300");
+                   }
+                   if(data.total_area_planted_target){
+                      $('#edit_targettotalareaplanted').attr('disabled', true);
+                      $('#edit_targettotalareaplanted').addClass("bg-gray-300");
+                   }
+                   if(data.total_area_harvested_target){
+                      $('#edit_targettotalareaharvested').attr('disabled', true);
+                      $('#edit_targettotalareaharvested').addClass("bg-gray-300");
+                   }
+            
+                  
+
+                 
+                 
+
+                   
+                
+            }
+
+        });
+    
+    $('#cropsrelatedmodal_edit').modal('show');
+});
+
+
 
 
 

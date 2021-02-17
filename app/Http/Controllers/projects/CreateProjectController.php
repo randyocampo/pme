@@ -132,7 +132,7 @@ class CreateProjectController extends Controller
             'municipality' => 'required',
             'barangay' => 'required',
             'year_covered' => 'required|max:4|min:4',
-            'projectid' => 'required|max:30',
+            'projectid' => 'required|max:30|unique:tblmnes',
             'projecttitle' => 'required|max:255',
             'individual' => 'max:6',
             'association' => 'max:3',
@@ -157,10 +157,10 @@ class CreateProjectController extends Controller
                     'remarks' => $request->remarks
             ];
 
-            $query = DB::table('tblmne')->insert($values);
+            $query = DB::table('tblmnes')->insertGetId($values);
 
             if( $query ) {
-                return response()->json(['status'=>1, 'msg'=>'New Project Successfully Added']); 
+                return response()->json(['status'=>1, 'msg'=>'New Project Successfully Added', 'id'=>$query]); 
             }
         }
 
@@ -168,44 +168,42 @@ class CreateProjectController extends Controller
 
 public function addrelatedcrops(Request $request) {
 
-
-
-    $this->validate($request, [
+    $validator = Validator::make($request->all(),[
         'nocycles' => 'required',
         'cropsprovided' => 'required',
         'noofcropspercycle' => 'required'
-        ]);
-           
-            $id = crops_related::create([
+    ]);
+
+    if($validator->fails()){
+        return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+    } else {
+        $values = [
                 'parent_id' => $request->id,
                 'cycle' => $request->nocycles,
                 'crops' => $request->cropsprovided,
                 'crops_per_cycle' => $request->noofcropspercycle,
-
                 'planted_target' => $request->targetdateplanted,
                 'total_area_planted_target' => $request->targettotalareaplanted,
                 'date_harvested_target' => $request->targetdateharvested,
                 'total_area_harvested_target' => $request->targettotalareaharvested,
-
                 'planted_actual' => $request->actualdateplanted,
                 'total_area_planted_actual' => $request->actualtotalareaplanted,
                 'date_harvested_actual' => $request->actualdateharvested,
                 'total_area_harvested_actual' => $request->actualtotalareaharvested,
-
                 'total_produce' => $request->totalproduced,
                 'total_sold' => $request->totalsold,
                 'priceperkg' => $request->priceperkg,
                 'totalsales' => $request->totalsales,
                 'remarks' => $request->crremarks
+    ];
 
-            ]);
+            $query = DB::table('crops_related')->insertGetId($values);
 
-            return redirect()->route('editproject', $request->id);            
+            if( $query ) {
+                return response()->json(['status'=>1, 'msg'=>'New Crops Related Successfully Added', 'id'=>$query]); 
+            }
 
-            
-
-    
-     
+    } 
 }
 
     public function store() {
@@ -230,13 +228,7 @@ public function addrelatedcrops(Request $request) {
 
         return view('projects.update')
         ->with('mne' , $mne)
-        ->with('regions' , $regions)
-        ;
-
-       
-
-        
-
+        ->with('regions' , $regions);
     }
 
     public function edit($id) {
@@ -247,12 +239,6 @@ public function addrelatedcrops(Request $request) {
                 ->first();
 
         $cropsrelated = crops_related::where('parent_id', '=', $id)->get();
-        // $data = crops_related::latest()->get();
-
-                
-
-                    
-
 
         return view('projects.selectedproject')
          ->with('mnes' , $mnes)
@@ -260,6 +246,90 @@ public function addrelatedcrops(Request $request) {
          ->with('cropsrelatedtotal', $cropsrelatedtotal)
          ->with('cropsrelatedtotal', $cropsrelatedtotal);
     }
+
+    public function editrelatedcrops_save(Request $request) {
+
+        $validator = Validator::make($request->all(),[
+            'edit_nocycles' => 'required',
+            'edit_cropsprovided' => 'required',
+            'edit_noofcropspercycle' => 'required'
+        ]);
+    
+        if($validator->fails()){
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+        } else {
+            $values = [
+                    'cycle' => $request->edit_nocycles,
+                    'crops' => $request->edit_cropsprovided,
+                    'crops_per_cycle' => $request->edit_noofcropspercycle,
+                    'planted_target' => $request->edit_targetdateplanted,
+                    'total_area_planted_target' => $request->edit_targettotalareaplanted,
+                    'date_harvested_target' => $request->edit_targetdateharvested,
+                    'total_area_harvested_target' => $request->edit_targettotalareaharvested,
+                    'planted_actual' => $request->edit_actualdateplanted,
+                    'total_area_planted_actual' => $request->edit_actualtotalareaplanted,
+                    'date_harvested_actual' => $request->edit_actualdateharvested,
+                    'total_area_harvested_actual' => $request->edit_actualtotalareaharvested,
+                    'total_produce' => $request->edit_totalproduced,
+                    'total_sold' => $request->edit_totalsold,
+                    'priceperkg' => $request->edit_priceperkg,
+                    'totalsales' => $request->edit_totalsales,
+                    'remarks' => $request->edit_remarks];
+    
+                $query = DB::table('crops_related')
+                        ->where('id', $request->id)
+                        ->update($values);
+    
+                if( $query ) {
+                    return response()->json(['status'=>1, 'msg'=>'Crops Related Successfully Updated']); 
+                }
+    
+        } 
+    }
+
+    public function editrelatedcrops($id) {
+        $cropsrelated = crops_related::find($id);
+        $seletedCycle = $cropsrelated->cycle;
+        $selectOption = '<option value="">Select Number of Cycles </option>';
+        $selectOption .= '<option value="1st Cycle" ';
+        if($seletedCycle=="1st Cycle") { $selectOption .= ' selected '; } 
+        $selectOption .= ' >1st Cycle</option>';
+        $selectOption .= '<option value="2nd Cycle" ';
+        if($seletedCycle=="2nd Cycle") { $selectOption .= ' selected '; } 
+        $selectOption .= ' >2nd Cycle</option>';
+        $selectOption .= '<option value="3rd Cycle" ';
+        if($seletedCycle=="3rd Cycle") { $selectOption .= ' selected '; } 
+        $selectOption .= ' >3rd Cycle</option>';
+        $selectOption .= '<option value="4th Cycle" ';
+        if($seletedCycle=="4th Cycle") { $selectOption .= ' selected '; } 
+        $selectOption .= ' >4th Cycle</option>';
+        $selectOption .= '<option value="5th Cycle" ';
+        if($seletedCycle=="5th Cycle") { $selectOption .= ' selected '; } 
+        $selectOption .= ' >5th Cycle</option>';
+
+           $values = [
+                'selectOption'=>$selectOption, 
+                'cycle'=>$cropsrelated->cycle,
+                'crops'=>$cropsrelated->crops,
+                'crops_per_cycle'=>$cropsrelated->crops_per_cycle,
+                'planted_target'=>$cropsrelated->planted_target,
+                'total_area_planted_target'=>$cropsrelated->total_area_planted_target,
+                'date_harvested_target'=>$cropsrelated->date_harvested_target,
+                'total_area_harvested_target'=>$cropsrelated->total_area_harvested_target,
+                'planted_actual'=>$cropsrelated->planted_actual,
+                'total_area_planted_actual'=>$cropsrelated->total_area_planted_actual,
+                'date_harvested_actual'=>$cropsrelated->date_harvested_actual,
+                'total_area_harvested_actual'=>$cropsrelated->total_area_harvested_actual,
+                'total_produce'=>$cropsrelated->total_produce,
+                'total_sold'=>$cropsrelated->total_sold,
+                'priceperkg'=>$cropsrelated->priceperkg,
+                'totalsales'=>$cropsrelated->totalsales,
+                'remarks'=>$cropsrelated->remarks 
+           ];
+            
+        return response()->json($values);
+    }
+
 
     public function allcropsrelated($id)
     {
@@ -276,16 +346,12 @@ public function addrelatedcrops(Request $request) {
                     ->rawColumns(['action'])
                     ->make(true);
 
-            // return DataTables::of($data)->make(true);
-           // }
         return view('projects.selectedproject');
     }
 
     public function allcropsrelatedtotal($id)
     {
-        //if ($request->ajax()) {
-            //$data = crops_related::where('parent_id', '=', $id)->get();
-            
+           
                 $a = crops_related::selectRaw('1 as `no`, "Total Produce" AS `Grand`, SUM(COALESCE(total_produce)) AS `Total`')
                     ->where('parent_id', '=' ,  $id);
                 $b = crops_related::selectRaw('2 as `no`, "Total Sold" AS `Grand`, sum(coalesce(total_sold)) as `Total`')
